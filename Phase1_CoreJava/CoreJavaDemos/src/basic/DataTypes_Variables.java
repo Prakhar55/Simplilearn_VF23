@@ -25,7 +25,7 @@ public class DataTypes_Variables {
 		// values can vary 
 		// represent the memory location
 		/**
-		 * 1. they can start only with alphabets _ or $
+		 * 1. they can start only with alphabets _ or $ , not with digits/numbers
 		 * 2. they can contain numbers or _ or $ but no other symbols are allowed
 		 * 3. Variables cannot be keywords
 		 */
