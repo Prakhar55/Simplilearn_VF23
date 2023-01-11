@@ -22,7 +22,7 @@ public class SwichCaseDemo {
 		switch(dice ) {
 		case 1: // dice ==1
 			System.out.println(1);
-			break;
+			break;//If we don't use break system will flow through next case
 		case 2:
 			System.out.println(2);
 			break;
