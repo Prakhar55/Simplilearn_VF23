@@ -15,3 +15,6 @@
 15.NestedLoopsDemo 
 16.NestedLoopsProgram/Assignment6
 17.ArrayDemo
+18.Assignment7
+19.ForEachLoop
+20.StringDemo
