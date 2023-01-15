@@ -1,0 +1,11 @@
+package assignment;
+
+public class CQuizMaster implements Quizmaster{
+
+	@Override
+	public String popQuestion() {
+		// TODO Auto-generated method stub
+		return "CQuestion";
+	}
+
+}
