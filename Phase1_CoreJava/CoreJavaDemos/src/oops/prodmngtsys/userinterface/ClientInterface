@@ -1,0 +1,108 @@
+package prodmngtsys.userinterface;
+
+import java.util.Scanner;
+
+import prodmngtsys.database.*;
+import prodmngtsys.entity.*;
+import prodmngtsys.service.*;
+
+public class ClientInterface {
+
+	public static void displayMenu()
+	{
+		System.out.println("Welcome ADMIN");
+		System.out.println("Choose one of the options");
+		System.out.println("1. Display all products");
+		System.out.println("2. Edit a product");
+		System.out.println("3. Add a new product");
+		System.out.println("4. Delete a product");
+		System.out.println("5. Search for a product");
+		System.out.println("6. Logout");
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Scanner sc = new Scanner (System.in);
+		ProductService service =new ProductService(5);
+		while(true)
+		{
+			displayMenu();
+		int choice = sc.nextInt();
+		switch(choice)
+			{
+			case 1://All products - Iterate and display the list
+				if(service.getCountService()==0)
+					System.out.println("No products added yet\n");
+				else{
+					System.out.println("ID\tName\tDesc\tPrice");
+					Product products[]=service.getAllProductsServ();
+					for (Product product:products)
+						{
+						if(product!=null)
+						System.out.println(product);
+						}
+					}
+				break;
+			case 2://Edit -Ask the admin to enter product id and name
+				//and desc,price
+				//create the product object and pass it to update method
+				System.out.println("Enter the product id which needs to be updated");
+				int id=sc.nextInt();
+				System.out.println("Enter new name");
+				String name =sc.next();
+				System.out.println("Enter new prod desc");
+				String desc =sc.next();
+				System.out.println("Enter new price");
+				double price=sc.nextDouble();
+				Product product =new Product(id,name,desc,price);
+				//setters
+				if(service.updateProductServ(product))
+					System.out.println("Product updated successfully\n");
+				else
+					System.out.println("No product found with given id\n");
+						;
+				break;
+			case 3://Add product -- Ask id ,name,desc and price
+				System.out.println("Enter details to add product");
+				System.out.println("Enter product id");
+				id=sc.nextInt();
+				System.out.println("Enter product name");
+				name=sc.next();
+				System.out.println("Enter product desc");
+				desc =sc.next();
+				System.out.println("Enter price");
+				price=sc.nextDouble();
+				Product p=new Product(id,name,desc,price);
+				if(service.insertProductServ(p))
+					System.out.println("Product added\n");
+				else
+					System.out.println("Product can't be added.Stock full!\n");
+				break;
+			case 4://Delete product//Ask for product id to delete
+				System.out.println("Enter the product id which needs to be deleted");
+				id=sc.nextInt();
+				if(service.deleteProductServ(id))
+					System.out.println("Product deleted successfully\n");
+				else
+					System.out.println("No product found with given id\n");
+				break;
+			case 5://Search product - Ask for product id
+				System.out.println("Enter the product id");
+				id=sc.nextInt();
+				p=service.getProductByIDServ(id);
+				if(p!=null)
+					System.out.println(p);
+				else
+					System.out.println("No product found with given id\n");
+				break;
+			case 6://Logout
+				System.out.println();
+				break;
+				
+			}
+		}
+		
+
+	}
+
+}
