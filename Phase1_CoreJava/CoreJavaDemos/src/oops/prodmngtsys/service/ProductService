@@ -1,0 +1,72 @@
+package prodmngtsys.service;
+
+import prodmngtsys.database.ProductDatabase;
+import prodmngtsys.entity.Product;
+
+public class ProductService {
+
+	private ProductDatabase database ;
+	
+	public ProductService(int i) {
+		// TODO Auto-generated constructor stub
+		database=new ProductDatabase(i);
+	}
+	
+	public int getCountService()
+	{
+		return database.getCount();
+	}
+	public Product[] getAllProductsServ()
+	{
+		return database.getAllProducts();
+	}
+	public boolean updateProductServ(Product p) 
+	{
+		for(int i=0;i<database.getProducts().length;i++)
+		{
+			if(database.getProducts()[i]!=null&&p.getPid()==database.getProducts()[i].getPid())
+			{
+				database.updateProduct(p,i);
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	public boolean insertProductServ(Product p)
+	{
+		if(database.getCount() < database.getProducts().length)
+		{
+			database.insertProduct(p);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean deleteProductServ(int pid)
+	{
+		for(int i=0;i<database.getProducts().length;i++)
+		{
+			if(database.getProducts()[i]!=null&&database.getProducts()[i].getPid()==pid)
+			{
+				database.deleteProduct(i);
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	public Product getProductByIDServ(int pid) 
+	{
+		for(int i=0;i<database.getProducts().length;i++)
+		{
+			if(database.getProducts()[i]!=null&&database.getProducts()[i].getPid()==pid)
+			{
+				return database.getProductByID(i);
+			}
+		}
+		
+		return null;
+	}
+	
+}
