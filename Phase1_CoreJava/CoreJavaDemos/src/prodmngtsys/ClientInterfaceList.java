@@ -5,12 +5,13 @@ import java.util.Scanner;
 import javax.management.NotCompliantMBeanException;
 
 import prodmngtsys.database.ProductDatabase;
+import prodmngtsys.database.ProductDatabaseList;
 import prodmngtsys.entity.Product;
 import prodmngtsys.exception.StockFullException;
 import prodmngtsys.service.ProductService;
 import staticdemo.Counter;
 
-public class ClientInterface {
+public class ClientInterfaceList {
 
 	public static void displayMenu()
 	{
@@ -26,37 +27,19 @@ public class ClientInterface {
 	}
 	public static void main(String[] args) {
 		/// highly cohesive
-		
-		Counter.setY(10);
-		System.out.println(Counter.company);
-		
-		Counter ob1 = new Counter();
-		System.out.println(ob1.ff);
-		
-		displayMenu();
-		System.out.println(Counter.getY());
-		
 		Scanner sc = new Scanner(System.in);
-		ProductDatabase database = new ProductDatabase(5);
-		ProductService service = new ProductService(database);
+		ProductDatabaseList database = new ProductDatabaseList();
+
 		while(true) { // current context
 			displayMenu();
 			int choice = sc.nextInt();
 			switch(choice) {
 			case 1:
 				// iterate and display the list
-
-				if(database.getCount() == 0)
-					System.out.println("No products added!!\n");
-				else {
-					System.out.println("\n\nId\tName\tDescription\tPrice");
-					Product products[] = database.getAllProducts();
-					for(Product product:products)
-					{
-						if(product != null)
-							System.out.println(product.getPid()+"\t"+product.getPname()+"\t"+product.getDesc()+"\t"+product.getPrice());
-					}
-				}
+				if(database.getAllProducts().size()==0)
+					System.out.println("No poducts yet");
+				for(Product p:database.getAllProducts())
+					System.out.println(p);
 				System.out.println();
 				break;
 			case 2: // ask the admin to enter product id and
@@ -68,34 +51,27 @@ public class ClientInterface {
 				break;
 			case 3:
 
-				if(service.isStockFull())
-					System.out.println("Stock full");
-				else {
-					System.out.println("\nEnter product details to add");
-					System.out.println("Enter id");
-					int id = sc.nextInt();
-					System.out.println("Enter name");
-					String name = sc.next();
-					sc.nextLine();
-					System.out.println("Enter desc");
-					String desc = sc.nextLine();
-					System.out.println("Enter price");
-					double price = sc.nextDouble();
-					Product p = new Product(id, name, desc, price);
-					try {
-						if(service.addProduct(p))
-							System.out.println("Product added");
-						else {
-							System.out.println("Product could not be added , stock full");
-						}
-					} catch (NotCompliantMBeanException | StockFullException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				System.out.println("\nEnter product details to add");
+				System.out.println("Enter id");
+				int id = sc.nextInt();
+				System.out.println("Enter name");
+				String name = sc.next();
+				sc.nextLine();
+				System.out.println("Enter desc");
+				String desc = sc.nextLine();
+				System.out.println("Enter price");
+				double price = sc.nextDouble();
+				Product p = new Product(id, name, desc, price);
+
+				database.insertProduct(p);
+				System.out.println("Product added");
+
+
 				break;
 			case 4:// // ask for product id to delete
-				int id1=0;
+		
+				System.out.println("Enter id to delete");
+				int id1 = sc.nextInt();
 				database.deleteProduct(id1);
 				break;
 			case 5:
