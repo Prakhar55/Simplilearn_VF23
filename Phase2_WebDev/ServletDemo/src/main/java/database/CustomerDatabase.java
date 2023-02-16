@@ -74,6 +74,7 @@ public class CustomerDatabase {
 		}catch(Exception e)
 		{
 			System.out.println("error "+e.getMessage());
+			
 			return false;
 		}
 		return true;
@@ -167,6 +168,26 @@ public class CustomerDatabase {
 			c1.setIsmember(rs.getBoolean(5));
 		}
 		return c1;
+	}
+	public boolean validateCustomer(String email, String password) throws SQLException
+	{
+		boolean isValid = false;
+		String sql = "select password from customer where email=?";
+
+		// 1. DB connection 
+		Connection conn = DBConnection.dbConn();
+		//2. create the statememt
+		PreparedStatement stat = conn.prepareStatement(sql);
+
+		stat.setString(1, email);
+		ResultSet rs = stat.executeQuery();
+		if(rs.next()) {
+			String pass = rs.getString(1);
+			if(pass.equals(password))
+				isValid = true;
+		}
+		
+		return isValid;
 	}
 
 }
