@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,14 +22,13 @@ public class DashboardServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public DashboardServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+    	System.out.println("Dashboard Servlet");
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Dashboard DO GET");
 		//String email = (String) request.getAttribute("email");
 //		String email = (String) request.getParameter("email");
 		response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
@@ -37,7 +37,11 @@ public class DashboardServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String email = (String) session.getAttribute("id");
-		
+		ArrayList<String> fruits = new ArrayList<String>();
+		fruits.add("Apple");
+		fruits.add("Mangoes");
+		fruits.add("Banana");
+		session.setAttribute("fruits", fruits);
 		if(email != null) {
 			PrintWriter out = response.getWriter();
 			out.println("<h1>GET request</h1>");
